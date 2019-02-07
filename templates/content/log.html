@@ -1,0 +1,86 @@
+{% extends 'content/base.html' %}
+
+{#title#}
+{% block titl %}
+日志-番茄博客
+{% endblock titl %}
+
+{% block body %}
+
+<div class="box">
+
+    <article>
+
+        <!--日志主体内容-->
+      <div class="timebox container">
+        <ul>
+            {% for a in article %}
+                <li><span>{{ a.create_time }}</span><i><a href="{% url 'articleOpt:articleRead' a.id %}" target="_parent">{{ a.title }}</a></i></li>
+            {% endfor %}
+        </ul>
+      </div>
+
+        <!--页码-->
+        <div class="text-center">
+            <nav aria-label="Page navigation">
+              <ul class="pagination pagination-lg">
+
+              <li><span>共 {{ num_pages }} 页 </span></li>
+                <!--上一页-->
+                {% if article.has_previous %}
+                    <li>
+                        <a href="{% url 'content:log' article.previous_page_number %}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <span href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </span>
+                    </li>
+                {% endif %}
+
+                <!--中间索引-->
+                {% for i in pageiter %}
+                    {% if i == article.number %}
+                        <li class="active"><a href="{% url 'content:log' i %}">{{ i }} <span class="sr-only">(current)</span></a></li>
+                    {% else %}
+                        <li><a href="{% url 'content:log' i %}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                <!--下一页-->
+                {% if article.has_next %}
+                    <li>
+                      <a href="{% url 'content:log' article.next_page_number %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                      <span href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </span>
+                    </li>
+                {% endif %}
+
+              </ul>
+            </nav>
+          </div>
+
+    </article>
+
+</div>
+
+{% endblock body %}
+
+{% block weibu %}
+<div class="container-fluid company2">
+    <footer>
+        <p>Design by <a href="{% url 'content:index' %}" target="_parent">鲁林个人博客</a> </p>
+        <p>备案号：<a href="/">蜀ICP备11002373号-1</a></p>
+    </footer>
+</div>
+{% endblock weibu %}
+

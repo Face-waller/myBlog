@@ -1,0 +1,93 @@
+@charset "UTF-8";
+/*base模板*/
+.company{
+    width: 100%;
+    text-align: center;
+    background: #FFF;
+    padding: 10px 0;
+    line-height: 7px;
+    border-top: #333 1px solid;
+}
+.company a{
+    color: #000;
+}
+.company2 {
+        width: 100%;
+    text-align: center;
+    background: #FFF;
+    padding: 10px 0;
+    line-height: 7px;
+    border-top: #333 1px solid;
+    position: fixed;;
+    bottom:0px;
+    left:0px;
+}
+.company2 a{
+    color: #000;
+}
+
+/*index页*/
+/*第一行*/
+.newstitle { margin: 20px; line-height: 30px; border-bottom: #000 1px solid; }
+.newstitle span { float: right; font-size: 18px }
+.newstitle span a { color: #000; }
+.newstitle b { background: #9fcdff; width: 118px; display: block; font-size: 14px; font-weight: normal; color: #FFF; text-align: center }
+.newsli li { padding-left: 10px; line-height: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.newsli a{color: #000}
+.newsbox { width: 50%; background: #fff; margin-top: 20px }
+.newsbox ul { margin: 20px; }
+.newsbox { width: 100% }
+/*第二行*/
+/*第三行*/
+.blogs { width: 66%; float: left }
+.bloglist { background: #FFF; overflow: hidden; padding: 20px; margin-bottom: 20px; }
+.bloglist h2 { font-size: 18px; position: relative }
+.bloglist h2:before { content: ""; width: 3px; height: 26px; position: absolute; left: -20px; top: 0; background: #333 }
+.bloglist p { overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 3; line-height: 24px; height: 72px; margin: 10px 0 0 }
+.blogs { width: 100% }
+/*右悬浮部件*/
+.paihang { background: #FFF; overflow: hidden; margin-top: 20px }
+.paihang h2 { font-size: 16px; padding: 8px 20px; position: relative }
+.paihang h2:after { content: ""; background-color: #282828; left: 20px; width: 60px; height: 2px; bottom: 0; position: absolute; -webkit-transition: 0.5s; -moz-transition: 0.5s; -ms-transition: 0.5s; -o-transition: 0.5s; transition: 0.5s; }
+.paihang ul { padding: 10px 20px }
+.paihang:hover ::after { width: 90px; }
+.paihang ul li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; line-height: 26px }
+
+/*about页*/
+.news_infos { padding-bottom: 20px }
+.news_infos a {font-size: 13px}
+.news_infos p {font-size: 14px}
+.news_infos p strong{color: #9fcdff ; font-size:16px}
+
+/*list页(主体部分已被改为time页主体部分*/
+.place { margin: 10px 0; width: 100%; overflow: hidden; background: #fff; }
+.place a { display: block; float: left; padding: 5px 0; background: #fff; margin: 0 10px; width: 100px; text-align: center }
+.pagelist { text-align: center; color: #666; width: 100%; clear: both; margin: 25px 0 10px 0; padding-top: 20px }
+.pagelist a { color: #666; margin: 0 2px 10px; border: 1px solid #fff; padding: 5px 10px; background: #FFF; display: inline-block; }
+.pagelist a:hover { color: #333; }
+.pagelist > b { border: 1px solid #333; padding: 5px 10px; background: #333; color: #FFF }
+
+/*time页(此页已被删,主体内容移到list也页*/
+.timebox { background: #FFF; padding: 30px }
+.timebox span { position: relative; line-height: 32px; padding-right: 40px; color: #999 }
+.timebox span:after { position: absolute; content: ""; width: 2px; height: 40px; background: #e0dfdf; right: 18px }
+.timebox li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.timebox li i { position: relative; font-style: normal }
+.timebox li i:before { content: " "; height: 10px; width: 10px; border: 2px solid #cccaca; background: #fff; position: absolute; top: 4px; left: -26px; border-radius: 50%; -webkit-transition: all .5s ease; -moz-transition: all .5s ease; -ms-transition: all .5s ease; -o-transition: all .5s ease; transition: all .5s ease; }
+.timebox li:hover i:before { background: #333 }
+
+/* scroll */
+.scrollup {
+    position: fixed;
+    width: 55px;
+    height: 55px;
+    bottom: 65px;
+    right: 18px;
+    background: #222;
+    background: url("../images/templatemo_arrow.png")no-repeat;
+}
+
+/*注册登录页*/
+.logo1{
+    font-size:20px;
+}

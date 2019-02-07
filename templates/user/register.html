@@ -1,0 +1,64 @@
+{% extends 'content/base.html' %}
+
+{% block titl %}
+注册
+{% endblock titl %}
+
+{% block header %}
+{% endblock header %}
+
+{% block body %}
+<div class="text-center logo1">
+番茄博客
+</div>
+{% load staticfiles %}
+<!--注册表单-->
+<form class="container" method="post">
+  {% csrf_token %}
+  <div class="form-group col-sm-7 form-group-lg">
+    <label for="exampleInputPassword1">用户名</label>
+    <input type="text" class="form-control" placeholder="由数字和字母组成的6位字符,不含其他符号" aria-describedby="basic-addon1" name="username">
+  </div>
+
+  <div class="form-group col-sm-7 form-group-lg">
+    <label for="exampleInputPassword1">密 码</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="由6位字母数字组成" name="pwd">
+  </div>
+
+  <div class="form-group col-sm-7 form-group-lg">
+    <label for="exampleInputPassword1">确认密码</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="请再次输入密码" name="ag_pwd">
+  </div>
+
+  <div class="form-group col-sm-7 form-group-lg">
+    <label for="exampleInputEmail1">输入邮箱</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="账号的激活信息会发送到此邮箱" name="email">
+  </div>
+
+  <div class="col-sm-7 form-group-lg">
+    <button type="submit" class="btn btn-default btn-primary">注 册</button>
+    <a href="{% url 'user:login' %}" class="btn btn-default" role="button">去登录</a>
+    <!--协议提示-->
+    <div class="col-sm-offset-0 register-sign">
+        <span class="asterisk">* </span> 点击“注册” 按钮，即表示您同意并愿意遵守 <a class="look-agreeon" target="_blank" href="{% static '用户协议.html' %}">用户协议</a>。
+    </div>
+  </div>
+</form>
+
+<div class="col-sm-7 form-group-lg">
+    <p style="color: red; font-size: 16px">
+        {{ errmsg }}
+    </p>
+</div>
+
+{% endblock body %}
+
+{% block weibu %}
+<div class="container-fluid company2">
+    <footer>
+        <p>Design by <a href="{% url 'content:index' %}" target="_parent">鲁林个人博客</a> </p>
+        <p>备案号：<a href="/">蜀ICP备11002373号-1</a></p>
+    </footer>
+</div>
+{% endblock weibu %}
+

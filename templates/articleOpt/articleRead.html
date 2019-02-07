@@ -1,0 +1,182 @@
+{% extends 'content/base.html' %}
+{#title#}
+{% block titl %}
+文章-番茄博客
+{% endblock titl %}
+
+{% block body %}
+<div class="container news_infos">
+        <!--文章标题-->
+        <h3 class="col-md-offset-5">{{ article.title }}</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;作者:{{ article.user }} 时间:{{ article.create_time }}</p>
+<HR>
+        <!--文章内容-->
+      {{ article.detail|safe }}
+
+    <br>
+    <div id="{{ article.id }}">
+        <!--评论按钮-->
+        <a style="font-size:20px" tabindex="0" role="button"
+            {% if not user.is_authenticated %} data-toggle="popover" class="btn btn-default"
+            {% else %} class="btn btn-default comment_btn" {% endif %} data-trigger="focus" title=""
+            data-content="登录后可评论哦">去评论({{ comcount }})
+        </a>
+    </div>
+
+<br><br>
+
+    <!--评论区-->
+    {% for rep,com in map %}
+            <div>
+            <p><strong name="{{ com.id }}">{{ com.user }}</strong>说:<br>&nbsp;&nbsp;&nbsp;&nbsp;{{ com.detail|safe }}&nbsp;&nbsp;&nbsp;&nbsp;{{ com.create_time }}
+                <a tabindex="0" role="button"
+                    {% if not user.is_authenticated %}data-toggle="popover" class = "btn btn-default"
+                    {% else %} class="btn btn-default reply_btn" {% endif %} data-trigger="focus" title=""
+                    data-content="登录后可回复哦">回复
+                </a>
+            </p>
+            </div>
+
+            <!--回复区-->
+            <div class="replyarea container">
+                {% for r in rep %}
+                    <!--一条回复-->
+                    <p><strong name="{{ com.id }}">{{ r.user }}</strong> {{ r.detail }}&nbsp;&nbsp;&nbsp;&nbsp;{{ r.create_time }}
+                        <a tabindex="0" role="button"
+                            {% if not user.is_authenticated %} data-toggle="popover" class="btn btn-default"
+                            {% else %} class="btn btn-default reply_btn" {% endif %} data-trigger="focus" title=""
+                             data-content="登录后可回复哦">回复
+                        </a>
+                    </p>
+                <br>
+                {% endfor %}
+            </div>
+
+<HR>
+    {% endfor %}
+{% csrf_token %}
+
+</div>
+
+<script type="text/javascript">
+    //页面加载完毕后开始执行的入口函数
+    $(function(){
+        //"去评论"按钮对评论输入框显示和关闭的控制
+        $(".comment_btn").click(function(){
+            if(!$(this).next().hasClass('comment_textarea')){
+                $(this).parent().append("<p class='comment_textarea'><textarea name='xet' " +
+                    "cols='40' rows='5'></textarea><br/><a class='btn btn-defaul' id='combutton'>" +
+                    "发表</a></p>");
+                //发表评论
+                $("#combutton").click(function(){
+                    //获取评论内容
+                    var comment_detail = $('textarea[name="xet"]').val();
+                    //获取被评论文章的id
+                    var article_id = $(this).parent().parent().attr('ID');
+                    //获取csrf属性值
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    //组织信息
+                    params = {'comment_detail':comment_detail,'article_id':article_id,'csrfmiddlewaretoken':csrf}
+
+                    var comment_error = false;
+                    $.ajaxSettings.async = false;
+                    //发起ajax post请求
+                    $.post('/articleOpt/commentWrite',params,function(data){
+                        if(data.res == 2){
+                            //评论成功
+                            comment_error = false;
+                        }
+                        else {
+                            //评论失败
+                            comment_error = true;
+                        }
+                        //输出评论结果
+                        alert(data.errmsg);
+                    });
+                    $.ajaxSettings.async = true;
+                    //如果评论成功,刷新当前页面,否则移除输入框
+                    if(comment_error == false){
+                        window.location.reload();
+                    }
+                    else{
+                        $('.comment_textarea').remove();
+                    }
+
+                });
+            }
+            else {
+                //移除回复输入框
+                $(".comment_textarea").remove();
+            }
+        });
+
+
+        //"回复"按钮对回复输入框显示和关闭的控制
+        $(".reply_btn").click(function(){
+            if(!$(this).next().hasClass('reply_textarea')){
+                $(".reply_textarea").remove();
+            }
+            if(!$(this).next().hasClass('reply_textarea')){
+                $(this).parent().append("<p class='reply_textarea'><textarea name='tex' " +
+                    "cols='40' rows='5'></textarea><br/><a class='btn btn-defaul' id='wtfbutton'>" +
+                    "发表</a></p>");
+
+                //发表回复
+                $("#wtfbutton").click(function () {
+                    //获取回复内容
+                    var reply_detail = $('textarea[name="tex"]').val();
+                    //获取被回复者的信息(被回复者用户名)
+                    var reply_obj = $(this).parent().parent().find('strong').html();
+                    //后去被回复所在评论的信息(评论的id,标记在了strong的name属性中)
+                    var reply_comm = $(this).parent().parent().find('strong').attr('name');
+                    //获取csrf属性值
+                    var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                    //组织信息
+                    params = {'reply_detail':reply_detail,'reply_obj':reply_obj,'csrfmiddlewaretoken':csrf,'reply_comm':reply_comm}
+
+                    //发起ajax post请求
+                    var reply_error = false;
+                    //设置ajax请求为同步
+                    $.ajaxSettings.async = false;
+                    $.post('/articleOpt/replyWrite',params,function (data) {
+                        if(data.res == 2){
+                            //回复成功
+                            reply_error = false;
+                        }
+                        else {
+                            //回复失败
+                            reply_error = true;
+                        }
+                        //输出回复结果
+                        alert(data.errmsg);
+                    });
+                    $.ajaxSettings.async = true;
+                    //如果评论成功,刷新当前页面,否则移除输入框
+                    if(reply_error == false){
+                        window.location.reload();
+                    }
+                    else{
+                        $(".reply_textarea").remove();
+                    }
+                });
+
+            }else{
+                //移除回复输入框
+                $(".reply_textarea").remove();
+            }
+        });
+    });
+
+</script>
+
+{% if not user.is_authenticated %}
+    <script>
+        //未登录提示框
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+    </script>
+{% endif %}
+
+{% endblock body %}
+
+

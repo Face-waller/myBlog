@@ -1,0 +1,81 @@
+{% extends 'content/base.html' %}
+
+{#title#}
+{% block titl %}
+分类文章-番茄博客
+{% endblock titl %}
+
+{% block body %}
+
+<div class="box container">
+    <div class="place" id="pageContents">
+
+        <strong>分类 : {{ type.type }} </strong>
+
+    </div>
+<!--以下内容根据类型按时间从大到小排序-->
+  <div class="blogs">
+
+    <div class="bloglist">
+        {% for a in article %}
+          <h2><a href="{% url 'articleOpt:articleRead' a.id %}" title="">{{ a.title }}</a></h2>
+          <p>{{ a.descriptive }}</p>
+        {% endfor %}
+    </div>
+
+    <!--页码-->
+      <div class="text-center">
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-lg">
+
+          <li><span>共 {{ num_pages }} 页 </span></li>
+            <!--上一页-->
+            {% if article.has_previous %}
+                <li>
+                    <a href="{% url 'content:type_article' type.id article.previous_page_number %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
+            {% endif %}
+
+            <!--中间索引-->
+            {% for i in pageiter %}
+                {% if i == article.number %}
+                    <li class="active"><a href="{% url 'content:type_article' type.id i %}">{{ i }} <span class="sr-only">(current)</span></a></li>
+                {% else %}
+                    <li><a href="{% url 'content:type_article' type.id i %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            <!--下一页-->
+            {% if article.has_next %}
+                <li>
+                  <a href="{% url 'content:type_article' type.id article.next_page_number %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                  <span href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </span>
+                </li>
+            {% endif %}
+
+          </ul>
+        </nav>
+      </div>
+
+  </div>
+</div>
+
+{% endblock body %}
+
+
+

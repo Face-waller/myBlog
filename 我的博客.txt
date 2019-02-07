@@ -1,0 +1,29 @@
+
+
+存在问题:
+
+首页类型栏里的url需要根据数据的文章类型索引去手动对应
+
+media存了富文本上传的图片视频,但页面访问不到
+
+用户登录后直接输入ip则是访问静态页面,显示未登录状态
+
+
+
+部署:
+
+uwsgi+django 													在实体ubuntu机上 128.0.0.1:8080(uwsgi配置)
+
+
+调度服务器(nginx) 												在实体ubuntu机上 127.0.0.1:80(nginx.conf)
+	静态文件收集路径  /home/ll/Nginx_Blog_staticSource/myBlog/static
+
+
+静态页面服务器(nginx+celery)   									虚拟ubuntu server机 192.168.31.149:80
+
+
+mysql,redis,fastdfs(tracker,storage,nginx 192.168.31.149:8888)   虚拟ubuntu server机
+
+
+
+

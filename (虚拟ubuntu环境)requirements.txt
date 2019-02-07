@@ -1,0 +1,13 @@
+amqp==2.4.0
+billiard==3.5.0.5
+celery==4.2.1
+Django==1.8.2
+django-redis==4.10.0
+django-redis-sessions==0.5.6
+django-tinymce==2.6.0
+itsdangerous==1.1.0
+kombu==4.2.2.post1
+PyMySQL==0.9.3
+pytz==2018.9
+redis==3.0.1
+vine==1.2.0

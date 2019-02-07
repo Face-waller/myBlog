@@ -1,0 +1,21 @@
+{% extends 'content/base.html' %}
+{#title#}
+{% block titl %}
+关于我-番茄博客
+{% endblock titl %}
+
+{% block body %}
+<div class="container">
+<h2>关于<br/></h2><p>此博客会不定期更新学习,工作上的一些有价值的,帮助自己回忆一些解决方案.<br/></p><p><br/></p><p>这个网站是用python的django框架作为后端支撑做的</p><p><br/></p><p>对于游客的投稿,默认都是不显示的,我会抽出质量较高的投稿的文章进行显示.除了&quot;游客投稿&quot;这个类型的文章外,其它分类都是我自己的文章.所以如果投稿的话请选择&quot;友情投稿&quot;分类</p><p><br/></p><p>如果有什么需要联系我本人的话,发邮件到2445530702这个号的qq邮箱上去并注明博客看到的,我会留意的.</p><p><br/></p><p><br/></p>
+</div>
+
+{% endblock body %}
+
+{% block weibu %}
+<div class="container-fluid company2">
+    <footer>
+        <p>Design by <a href="{% url 'content:index' %}" target="_parent">鲁林个人博客</a> </p>
+        <p>备案号：<a href="/">蜀ICP备11002373号-1</a></p>
+    </footer>
+</div>
+{% endblock weibu %}

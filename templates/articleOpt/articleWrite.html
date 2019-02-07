@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<!--由于此富文本功能的js,css插件与bootstrap的不兼容,所以不继承基础模板-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑-番茄博客</title>
+    <link type="text/css" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    {{ forms.media }}
+</head>
+<body>
+    <div class="container-fluid">
+        <img src="{% static 'images/top.png' %}" class="img-responsive">
+    </div>
+    <!--导航条-->
+    <div class="container">
+    <div class="row">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"><img src="{% static 'images/templatemo_logo_2.png' %}"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <!--占位-->
+                <li><a href="#"></a></li>
+                <li><a href="{% url 'content:index' %}">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="{% url 'content:log' 1 %}">日志</a></li>
+                <li><a href="{% url 'content:about' %}">Blogger</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><img src="{% static 'images/headp.png' %}"><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+
+                    {% if user.is_authenticated %}
+                        <li><a>欢迎您: {{ user.username }}</a></li>
+                        <li><a href="{% url 'articleOpt:articleWrite' %}">写文章</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{% url 'user:logout' %}">登出</a></li>
+                    {% else %}
+                        <li><a href="{% url 'user:login' %}">登录</a></li>
+                    {% endif %}
+
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+  </div>
+
+<!--******************************************-->
+
+    <div class="container text-center">
+        {% csrf_token %}
+
+        <div class="row form-group-lg col-md-9">
+            <label for="">标 题</label>
+            <input type="text" class="form-control" id="title" placeholder="文章标题, 长度小于20">
+        </div>
+
+        <div class="row form-group-lg col-md-9">
+            <label for="">描 述</label>
+            <input type="text" class="form-control" id="describe" placeholder="文章描述, 长度小于20">
+        </div>
+
+        <div class="row form-group-lg col-md-9">
+          <label for="">类 型</label>
+          <select class="form-control artype">
+              <option>友情投稿</option>
+              <option>网站建设</option>
+              <option>Python</option>
+              <option>Java</option>
+              <option>前端</option>
+              <option>life</option>
+          </select>
+        </div>
+
+        <div class="row form-group col-md-9">
+
+          {{ forms }}
+
+        </div>
+
+        <div class="row">
+            <button type="button" class="btn btn-primary btn-lg col-sm-offset-1 pubbtn">发 表</button><br>
+        </div>
+
+        <HR>
+    </div>
+
+</body>
+
+    <div class="container-fluid company">
+        <footer>
+            <p>Design by <a href="{% url 'content:index' %}" target="_parent">鲁林个人博客</a> </p>
+            <p>备案号：<a href="/">蜀ICP备11002373号-1</a></p>
+        </footer>
+    </div>
+
+<style>
+    .company{
+        width: 100%;
+        text-align: center;
+        background: #FFF;
+        padding: 10px 0;
+        line-height: 7px;
+        border-top: #333 1px solid;
+    }
+    .company a{
+        color: #000;
+    }
+</style>
+
+<script>
+
+    $(function () {
+        $('.pubbtn').click(function () {
+            //获取数据
+            var title = $('#title').val();
+            var describe = $('#describe').val();
+            var artype = $('.artype').val();
+            //获取富文本内容
+            var detail = id_content.getContent();
+            //获取csrf值
+            var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
+            //组织数据
+            params = {'title': title,'describe':describe,'artype':artype,'detail':detail,'csrfmiddlewaretoken':csrf}
+            articlecommit_error = false;
+            $.ajaxSettings.async = false;
+            //发起ajax post请求
+            $.post('/articleOpt/articleWrite',params,function (data) {
+                if(data.res == 2){
+                    //文章发表成功
+                    articlecommit_error = false;
+                }
+                else{
+                    //文章发表失败
+                    articlecommit_error = true;
+                }
+                //输出发表结果
+                alert(data.errmsg)
+            });
+            $.ajaxSettings.async = true;
+            //判断文章是否发表成功,发表成功刷新界面
+            if(articlecommit_error == false){
+                window.location.href="/content/index";
+            }
+        });
+    });
+
+</script>
+
+</html>
