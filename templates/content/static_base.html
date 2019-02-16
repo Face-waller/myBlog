@@ -53,7 +53,7 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><img src="{% static 'images/headp.png' %}"><span class="caret"></span></a>
                   <ul class="dropdown-menu">
 
-                    <li><a href="{% url 'user:login' %}">登录</a></li>
+                        <!--ajax区域-->
 
                   </ul>
                 </li>
@@ -82,6 +82,39 @@
     </footer>
 </div>
 {% endblock weibu %}
+
+<!--生成的首页静态页面的登录区域的显示-->
+<script type="text/javascript">
+    $(function () {
+        params = {
+            _:new Date().getTime() //解决Ajax中get请求的缓存问题
+        };
+        var userISlogin = false;
+        $.ajaxSettings.async = false;
+        $.get('/content/static_index',params,function (data) {
+            if(data.res == 0){
+                //用户未登录
+                userISlogin = false;
+            }
+            else{
+                //用户已登,用户名赋值给变量,以便带出去用户名
+                userISlogin = data.username;
+            }
+
+        });
+        $.ajaxSettings.async = true;
+        if(userISlogin == false){
+            $('.dropdown-menu').html("<li><a href='/user/login'>登录</a></li>");
+        }
+        else{
+            $('.dropdown-menu').html("<li><a>欢迎您: "+userISlogin+"</a></li>"+
+                "<li><a href='/articleOpt/articleWrite'>写文章</a></li>"+
+            "<li role='separator' class='divider'></li>"+
+            "<li><a href='/user/logout'>登出</a></li>");
+        }
+
+    });
+</script>
 
 
 </html>

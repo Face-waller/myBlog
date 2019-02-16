@@ -14,7 +14,7 @@ import os
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myBlog.settings")
 # django.setup()
 
-app = Celery('celery_tasks.tasks',broker='redis://192.168.31.149:6379/8')
+app = Celery('celery_tasks.tasks',broker='redis://192.168.43.150:6379/8')
 
 #定义任务函数
 @app.task

@@ -2,17 +2,17 @@
 
 存在问题:
 
-首页类型栏里的url需要根据数据的文章类型索引去手动对应
+首页类型栏里的url需要根据数据的文章类型索引去手动对应,因为首页分类一栏是写死的
 
-media存了富文本上传的图片视频,但页面访问不到
+django项目下的/static/media存了富文本上传的图片视频,但是通过nginx访问不到
 
-用户登录后直接输入ip则是访问静态页面,显示未登录状态
+fdfs目前没有用处,因为此博客没有添加选择文件的数据类型
 
 
 
-部署:
+部署(nginx配置文件 /usr/local/nginx/conf/nginx.conf):
 
-uwsgi+django 													在实体ubuntu机上 128.0.0.1:8080(uwsgi配置)
+uwsgi+django 													在实体ubuntu机上 127.0.0.1:8080(uwsgi配置)
 
 
 调度服务器(nginx) 												在实体ubuntu机上 127.0.0.1:80(nginx.conf)

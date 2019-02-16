@@ -152,9 +152,9 @@
                 else{
                     //文章发表失败
                     articlecommit_error = true;
+                    //输出发表结果
+                    alert(data.errmsg);
                 }
-                //输出发表结果
-                alert(data.errmsg)
             });
             $.ajaxSettings.async = true;
             //判断文章是否发表成功,发表成功刷新界面

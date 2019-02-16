@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
+from myBlog import settings
+from django.views.static import serve
 
 urlpatterns = [
     url(r'^admin', include(admin.site.urls)),
@@ -24,6 +26,7 @@ urlpatterns = [
     url(r'^content/',include('content.urls',namespace='content')),#页面模块
     url(r'^articleOpt/',include('articleOpt.urls',namespace='articleOpt')),#文章模块
     url(r'^ueditor/', include('DjangoUeditor.urls')), # 百度 ueditor 的路由
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}), #上传的非静态文件的访问路径
     url(r'^',include('content.urls',namespace='con_index')),
 
 

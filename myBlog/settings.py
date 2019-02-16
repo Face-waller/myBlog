@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'myBlog',
         'USER':'root',
         'PASSWORD':'123456',
-        'HOST':'192.168.31.149',
+        'HOST':'192.168.43.150',
         'POSt':3306,
     }
 }
@@ -122,11 +122,11 @@ STATIC_ROOT = '/home/ll/Nginx_Blog_staticSource/myBlog/static'
 
 #-------------Ueditor-----------------
 # 图片上传路径，位置自己定义即可
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
-# MEDIA_DIRS = (
-#     os.path.join(BASE_DIR, 'static/media')
-# )
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_DIRS = (
+    os.path.join(BASE_DIR, 'media')
+)
 #--------------------------------------
 
 #发送邮件配置
@@ -146,7 +146,7 @@ EMAIL_FROM = '番茄博客<llin24455@163.com>'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://192.168.31.149:6379/9",
+        "LOCATION": "redis://192.168.43.150:6379/9",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -166,5 +166,5 @@ DEFAULT_FILE_STORAGE = 'utils.fdfs.storage.FDFSStorage'
 #设置fdfs使用的client.conf文件路径
 FDFS_CLIENT_CONF = './utils/fdfs/client.conf'
 #设置fdfs存储服务器上nginx的IP和端口号
-FDFS_URL = 'http://192.168.31.149:8888/'
+FDFS_URL = 'http://192.168.43.150:8888/'
 

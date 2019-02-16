@@ -1,9 +1,9 @@
 from django.core.urlresolvers import reverse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.core.paginator import Paginator
 from django.core.cache import cache
-from django.db.models import Q
 
 
 # Create your views here.
@@ -39,10 +39,26 @@ class Index(View):
 
             #设置缓存
             #key value timeout
-            cache.set('index_page_data', context, 3600)
+            cache.set('index_page_data', context, 60)
 
         #除了你给模板文件传递的模板变量之外,django框架会把request.user也传给模板文件
         return render(request, 'content/index.html',context)
+
+#/static_index
+#静态页面的ajax请求
+class static_index(View):
+    def get(self,request):
+        #判断发起post请求的用户是否登录
+        user = request.user
+        if not user.is_authenticated():
+            return JsonResponse({'res':0, 'errmsg':'用户未登录!'})
+
+        try:
+            username = request.user.username
+        except:
+            return JsonResponse({'res':0,'errmsg':'读取用户信息失败!'})
+
+        return JsonResponse({'res': 1, 'username': username})
 
 #/about
 #关于我页面
